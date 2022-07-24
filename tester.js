@@ -52,10 +52,20 @@ let PercorreVetorEJuntaValoresIguais = (vetorTodosNumRolados) =>{
     return { vetorValoresOrdenados, numVezesCadaNumeroCaiu} 
 }
 
+let QualAChanceDeCair = (tipoDoDado, quantidadeDeDados, numVezesRepetidasNaMesmaJogada) => {
+    if (numVezesRepetidasNaMesmaJogada > 1) {
+        let variasVezes = (1 - (((tipoDoDado.numMaximo ** numVezesRepetidasNaMesmaJogada)-1) / tipoDoDado.numMaximo ** numVezesRepetidasNaMesmaJogada) ** quantidadeDeDados)
+        return variasVezes
+    }
+    let umaVez = (1 - ((tipoDoDado.numMaximo-1) / tipoDoDado.numMaximo) ** quantidadeDeDados)
+    return umaVez
+}
+
 let vetorValoresTeste = [1,5,2,3,4,1,2,6,3,2,4,5,6]
 const tipoDoDado = {
     numMinimo: 1,
     numMaximo: 6
 }
 let vetorTeste = RolaDadoVariasVezes(tipoDoDado, 4)
-console.debug(PercorreVetorEJuntaValoresIguais(vetorTeste))
+
+console.debug(QualAChanceDeCair(tipoDoDado, 4, 1))
