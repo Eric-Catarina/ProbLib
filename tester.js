@@ -18,54 +18,56 @@ let RolaDadoVariasVezes = (tipoDoDado, quantidadeDeRoladas) => {
 }
 let CriaVetorComOsValoresPossiveis = (tipoDoDado) => {
     vetorValoresPossiveis = []
-    for(let i = tipoDoDado.numMinimo; i <= tipoDoDado.numMaximo; i ++){
+    for (let i = tipoDoDado.numMinimo; i <= tipoDoDado.numMaximo; i++) {
         AdicionaValorAoVetor(i, vetorValoresPossiveis)
     }
     return vetorValoresPossiveis
 }
-let InicializaVetorComValoresPossiveis = (vetor, tamanhoVetor) =>{
-    for (let i = 0; i < tamanhoVetor; i++){
+let InicializaVetorComValoresPossiveis = (vetor, tamanhoVetor) => {
+    for (let i = 0; i < tamanhoVetor; i++) {
         vetor.push(i + 1)
     }
-    
+
 }
 let InicializaVetorComZero = (vetor, tamanhoVetor) => {
-    for (let i = 0; i < tamanhoVetor; i++){
+    for (let i = 0; i < tamanhoVetor; i++) {
         vetor.push(0)
     }
     return vetor
 }
-let PercorreVetorEJuntaValoresIguais = (vetorTodosNumRolados) =>{
+let PercorreVetorEJuntaValoresIguais = (vetorTodosNumRolados) => {
     let vetorValoresPossiveis = CriaVetorComOsValoresPossiveis(tipoDoDado)
     let vetorValoresOrdenados = []
     let numVezesCadaNumeroCaiu = []
     numVezesCadaNumeroCaiu = InicializaVetorComZero(numVezesCadaNumeroCaiu, tipoDoDado.numMaximo)
     InicializaVetorComValoresPossiveis(vetorValoresOrdenados, tipoDoDado.numMaximo)
-    for (let contadorDoTotal = 0; contadorDoTotal < vetorTodosNumRolados.length; contadorDoTotal++){
-        for (let valorPossivelAtual = 0; valorPossivelAtual < vetorValoresPossiveis.length; valorPossivelAtual++){
-            if (vetorTodosNumRolados[contadorDoTotal] == vetorValoresPossiveis[valorPossivelAtual]){
+    for (let contadorDoTotal = 0; contadorDoTotal < vetorTodosNumRolados.length; contadorDoTotal++) {
+        for (let valorPossivelAtual = 0; valorPossivelAtual < vetorValoresPossiveis.length; valorPossivelAtual++) {
+            if (vetorTodosNumRolados[contadorDoTotal] == vetorValoresPossiveis[valorPossivelAtual]) {
                 vetorValoresOrdenados.splice(vetorValoresOrdenados.lastIndexOf(valorPossivelAtual + 1), 0, vetorTodosNumRolados[contadorDoTotal])
-                numVezesCadaNumeroCaiu[valorPossivelAtual]  = numVezesCadaNumeroCaiu[valorPossivelAtual] +1
+                numVezesCadaNumeroCaiu[valorPossivelAtual] = numVezesCadaNumeroCaiu[valorPossivelAtual] + 1
             }
         }
     }
-    return { vetorValoresOrdenados, numVezesCadaNumeroCaiu} 
+    return { vetorValoresOrdenados, numVezesCadaNumeroCaiu }
 }
 
-let QualAChanceDeCair = (tipoDoDado, quantidadeDeDados, numVezesRepetidasNaMesmaJogada) => {
-    if (numVezesRepetidasNaMesmaJogada > 1) {
-        let variasVezes = (1 - (((tipoDoDado.numMaximo ** numVezesRepetidasNaMesmaJogada)-1) / tipoDoDado.numMaximo ** numVezesRepetidasNaMesmaJogada) ** quantidadeDeDados)
+let QualAChanceDeCair = (tipoDoDado, quantidadeDeLancamentosDoMesmoDado, numMinimoEsperado) => {
+
+    if (numMinimoEsperado > 1) {
+        let variasVezes = (1 - (((tipoDoDado.numMaximo ** numMinimoEsperado) - 1) / tipoDoDado.numMaximo ** numMinimoEsperado) ** quantidadeDeLancamentosDoMesmoDado)
         return variasVezes
     }
-    let umaVez = (1 - ((tipoDoDado.numMaximo-1) / tipoDoDado.numMaximo) ** quantidadeDeDados)
+    let umaVez = (1 - ((tipoDoDado.numMaximo - 1) / tipoDoDado.numMaximo) ** quantidadeDeLancamentosDoMesmoDado)
     return umaVez
 }
 
-let vetorValoresTeste = [1,5,2,3,4,1,2,6,3,2,4,5,6]
+let vetorValoresTeste = [1, 5, 2, 3, 4, 1, 2, 6, 3, 2, 4, 5, 6]
 const tipoDoDado = {
     numMinimo: 1,
-    numMaximo: 6
+    numMaximo: 2
 }
 let vetorTeste = RolaDadoVariasVezes(tipoDoDado, 4)
 
-console.debug(QualAChanceDeCair(tipoDoDado, 4, 1))
+
+console.debug(QualAChanceDeCair(tipoDoDado, 1, 5))
